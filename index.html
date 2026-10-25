@@ -11,40 +11,64 @@
 </head>
 <body>
 <header class="topbar">
-  <a class="brand" href="#run-js">Dev<span>/</span>Docs</a>
+  <a class="brand" href="#fundamentals">Dev<span>/</span>Docs</a>
   <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="side">Menu</button>
 </header>
 
 <nav class="side" id="side" aria-label="Documentation">
-  <a class="brand" href="#run-js">Dev<span>/</span>Docs</a>
+  <a class="brand" href="#fundamentals">Dev<span>/</span>Docs</a>
   <input class="search" id="search" type="search" placeholder="Search docs" aria-label="Search docs">
   <div class="nav-group" id="nav-js">
     <div class="nav-h">JavaScript</div>
-    <div class="nav-sub">Fundamentals</div>
-    <a href="#run-js">Running JavaScript</a>
-    <a href="#values">Values</a>
-    <a href="#variables">Variables</a>
-    <a href="#expressions">Statements and expressions</a>
-    <a href="#let-const-var">let, const and var</a>
-    <a href="#typeof">Data types and typeof</a>
-    <a href="#operators">Basic operators</a>
-    <a href="#precedence">Operator precedence</a>
-    <a href="#strings">Strings and template literals</a>
-    <a href="#if-else">if / else</a>
-    <a href="#conversion">Type conversion and coercion</a>
-    <a href="#truthy-falsy">Truthy and falsy</a>
-    <a href="#equality">Equality: == vs ===</a>
-    <a href="#boolean-logic">Boolean logic</a>
-    <a href="#switch">switch statement</a>
-    <a href="#ternary">Ternary operator</a>
-  </div>
-  <div class="nav-group">
-    <div class="nav-h">React</div>
-    <div class="nav-soon">No pages yet</div>
+    <details class="nav-chap" data-page="fundamentals">
+      <summary>Core Part 1</summary>
+      <div class="nav-list">
+        <a href="#run-js">Running JavaScript</a>
+        <a href="#values">Values</a>
+        <a href="#variables">Variables</a>
+        <a href="#expressions">Statements and expressions</a>
+        <a href="#let-const-var">let, const and var</a>
+        <a href="#typeof">Data types and typeof</a>
+        <a href="#operators">Basic operators</a>
+        <a href="#precedence">Operator precedence</a>
+        <a href="#strings">Strings and template literals</a>
+        <a href="#if-else">if / else</a>
+        <a href="#conversion">Type conversion and coercion</a>
+        <a href="#truthy-falsy">Truthy and falsy</a>
+        <a href="#equality">Equality: == vs ===</a>
+        <a href="#boolean-logic">Boolean logic</a>
+        <a href="#switch">switch statement</a>
+        <a href="#ternary">Ternary operator</a>
+      </div>
+    </details>
+    <details class="nav-chap" data-page="fundamentals-2">
+      <summary>Core Part 2</summary>
+      <div class="nav-list">
+        <a href="#strict-mode">Strict mode</a>
+        <a href="#functions">Functions</a>
+        <a href="#fn-decl-expr">Declarations vs expressions</a>
+        <a href="#arrow-functions">Arrow functions</a>
+        <a href="#arrays">Arrays</a>
+        <a href="#array-methods">Basic array methods</a>
+        <a href="#objects-intro">Objects</a>
+        <a href="#dot-bracket">Dot vs bracket notation</a>
+        <a href="#object-methods">Object methods</a>
+        <a href="#for-loop">The for loop</a>
+        <a href="#looping-arrays">Looping arrays, break and continue</a>
+        <a href="#loops-backwards">Backwards and nested loops</a>
+        <a href="#while-loop">The while loop</a>
+      </div>
+    </details>
   </div>
 </nav>
 
 <main>
+
+  <article class="doc" id="fundamentals" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Core Part 1</h1><p class="lede">The core of the language: values, variables, operators and decisions. Start at the top or jump to any page.</p></div>
+    <ol class="toc"></ol>
+    <div class="pager"></div>
+  </article>
 
   <article class="doc" id="run-js" hidden>
     <div class="head"><div class="crumbs"></div><h1>Running JavaScript</h1><p class="lede">Connecting a script to a page, printing output and writing comments.</p></div>
@@ -814,6 +838,841 @@ if (score &gt;= 50) {
 }</code></pre>
 
     <section class="sec" id="in-template"><div class="sec-head"><span class="sec-no op">1</span><h2>Inside a template literal</h2></div><p class="sec-lede">The ternary is an expression, so it works where <code>if</code> cannot. Use <code>if / else</code> when you need to run statements or have more than two outcomes.</p><pre class="code"><code>console.log(`Exam: ${score &gt;= 50 ? "Passed" : "Failed"}`);  <span class="cm">// Exam: Failed</span></code></pre></section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="fundamentals-2" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Core Part 2</h1><p class="lede">A first look at functions, arrays, objects and loops, plus strict mode. Later chapters cover each of these in depth.</p></div>
+    <ol class="toc"></ol>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="strict-mode" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Strict mode</h1><p class="lede">Turning on stricter rules, so that silent mistakes become visible errors.</p></div>
+    <div class="prose"><div class="defn"><p><code>'use strict';</code> as the first line of a script turns on strict mode for the whole file. Put it at the top of every script you write.</p></div></div>
+
+    <section class="sec" id="strict-enable">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Turning it on</h2></div>
+      <p class="sec-lede">It must be the very first statement in the file. Only comments may come before it. Anywhere else, it is ignored.</p>
+      <pre class="code"><code>'use strict';
+
+const name = "Anna";
+console.log(name);</code></pre>
+    </section>
+
+    <section class="sec" id="strict-errors">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Silent mistakes become errors</h2></div>
+      <p class="sec-lede">Without strict mode, assigning to a misspelled variable name silently creates a new global variable. The bug goes unnoticed. With strict mode, it throws an error that points to the line.</p>
+      <pre class="code"><code>'use strict';
+
+let hasDriversLicense = false;
+const passedTest = true;
+
+if (passedTest) hasDriverLicense = true;  <span class="cm">// typo: "Driver" instead of "Drivers"</span>
+<span class="cm">// without strict mode: creates a new global variable, no error</span>
+<span class="cm">// with strict mode:    ReferenceError: hasDriverLicense is not defined</span></code></pre>
+      <p class="note">This is the same rule as <a href="#no-keyword">Forgetting the keyword</a> on the let, const and var page.</p>
+    </section>
+
+    <section class="sec" id="strict-reserved">
+      <div class="sec-head"><span class="sec-no op">3</span><h2>Reserved words</h2></div>
+      <p class="sec-lede">Strict mode reserves some words that JavaScript may use for future features, such as <code>interface</code>, <code>private</code>, <code>public</code>, <code>package</code> and <code>protected</code>. They cannot be used as variable names.</p>
+      <pre class="code"><code>'use strict';
+
+const interface = "Audio";  <span class="cm">// SyntaxError: Unexpected strict mode reserved word</span>
+const private = 534;        <span class="cm">// SyntaxError</span></code></pre>
+      <p class="note">JavaScript modules and classes always run in strict mode, even without the line.</p>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="functions" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Functions</h1><p class="lede">Packaging code under a name, so you can run it again and again.</p></div>
+    <div class="prose"><div class="defn"><p>A function is a reusable block of code. You define it once and call it whenever you need it. It can take input values and send a result back.</p></div></div>
+
+    <figure>
+      <figcaption>Anatomy of a function.</figcaption>
+      <svg class="fn-svg anat-svg" viewBox="0 0 640 390" role="img" aria-labelledby="fna-t fna-d">
+        <title id="fna-t">Anatomy of a function</title>
+        <desc id="fna-d">The declaration function toCelsius(fahrenheit) with labels for the keyword, the name, the parameter, the body and return. Below it the call toCelsius(212) with labels for the call, the argument and the returned value 100.</desc>
+
+        <g class="op">
+          <text class="lb" x="88" y="36" text-anchor="middle">keyword</text>
+          <path class="ln" d="M88 46 V84"/><path class="hd" d="M83 84 h10 l-5 8 z"/>
+          <rect class="tk" x="34" y="93" width="108" height="34" rx="6"/>
+          <text class="mono c" x="40" y="110" dominant-baseline="central">function</text>
+        </g>
+        <g class="obj">
+          <text class="lb" x="222" y="36" text-anchor="middle">name</text>
+          <path class="ln" d="M222 46 V84"/><path class="hd" d="M217 84 h10 l-5 8 z"/>
+          <rect class="tk" x="160" y="93" width="124" height="34" rx="6"/>
+          <text class="mono c" x="166" y="110" dominant-baseline="central">toCelsius</text>
+        </g>
+        <text class="mono" x="290" y="110" dominant-baseline="central">(</text>
+        <g class="prim">
+          <text class="lb" x="372" y="36" text-anchor="middle">parameter</text>
+          <path class="ln" d="M372 46 V84"/><path class="hd" d="M367 84 h10 l-5 8 z"/>
+          <rect class="tk" x="306" y="93" width="132" height="34" rx="6"/>
+          <text class="mono c" x="312" y="110" dominant-baseline="central">fahrenheit</text>
+        </g>
+        <text class="mono" x="446" y="110" dominant-baseline="central">) {</text>
+
+        <g class="val">
+          <rect class="tk" x="52" y="140" width="460" height="80" rx="6"/>
+          <path class="ln" d="M566 160 H522"/><path class="hd" d="M522 155 v10 l-8 -5 z"/>
+          <text class="lb" x="572" y="160" dominant-baseline="central">body</text>
+        </g>
+        <text class="mono" x="64" y="160" dominant-baseline="central">const c = (fahrenheit - 32) * 5 / 9;</text>
+        <g class="yes">
+          <rect class="tk" x="58" y="183" width="84" height="34" rx="6"/>
+          <text class="mono c" x="64" y="200" dominant-baseline="central">return</text>
+          <path class="ln" d="M566 200 H196"/><path class="hd" d="M196 195 v10 l-8 -5 z"/>
+          <text class="lb" x="572" y="200" dominant-baseline="central">return</text>
+        </g>
+        <text class="mono" x="148" y="200" dominant-baseline="central">c;</text>
+        <text class="mono" x="40" y="240" dominant-baseline="central">}</text>
+
+        <g class="no">
+          <rect class="tk" x="34" y="273" width="124" height="34" rx="6"/>
+          <text class="mono c" x="40" y="290" dominant-baseline="central">toCelsius</text>
+          <path class="ln" d="M96 354 V316"/><path class="hd" d="M91 316 h10 l-5 -8 z"/>
+          <text class="lb" x="96" y="374" text-anchor="middle">call</text>
+        </g>
+        <text class="mono" x="164" y="290" dominant-baseline="central">(</text>
+        <g class="arg">
+          <rect class="tk" x="180" y="273" width="52" height="34" rx="6"/>
+          <text class="mono c" x="186" y="290" dominant-baseline="central">212</text>
+          <path class="ln" d="M206 354 V316"/><path class="hd" d="M201 316 h10 l-5 -8 z"/>
+          <text class="lb" x="206" y="374" text-anchor="middle">argument</text>
+        </g>
+        <text class="mono" x="240" y="290" dominant-baseline="central">)</text>
+        <text class="mono mut" x="264" y="290" dominant-baseline="central">→</text>
+        <g class="yes">
+          <rect class="tk" x="292" y="273" width="52" height="34" rx="6"/>
+          <text class="mono c" x="298" y="290" dominant-baseline="central">100</text>
+          <path class="ln" d="M410 290 H360"/><path class="hd" d="M360 285 v10 l-8 -5 z"/>
+          <text class="lb" x="418" y="290" dominant-baseline="central">returned value</text>
+        </g>
+      </svg>
+    </figure>
+
+    <section class="sec" id="fn-define">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Defining and calling</h2></div>
+      <p class="sec-lede">Calling, running and invoking all mean the same thing: writing the name followed by <code>()</code>. Without the parentheses, the function does not run.</p>
+      <pre class="code"><code>function greet() {
+  console.log("Hello, I'm Anna");
+}
+
+greet();  <span class="cm">// Hello, I'm Anna</span>
+greet();  <span class="cm">// Hello, I'm Anna</span></code></pre>
+      <p class="note">You have been calling functions all along: <code>console.log()</code>, <code>Number()</code> and <code>String()</code> are functions built into JavaScript.</p>
+    </section>
+
+    <section class="sec" id="fn-params">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Parameters and arguments</h2></div>
+      <p class="sec-lede">Parameters are placeholders for the input. Arguments are the actual values you pass in when you call the function.</p>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Term</th><th>What it is</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>Parameter</td><td>A name in the function definition</td><td><code>apples</code>, <code>oranges</code></td></tr>
+            <tr><td>Argument</td><td>A value passed in when calling</td><td><code>5</code>, <code>0</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure>
+        <figcaption>Arguments are matched to parameters by position: the first argument goes to the first parameter, and so on.</figcaption>
+        <svg class="fn-svg" viewBox="0 0 640 236" role="img" aria-labelledby="fnp-t fnp-d">
+          <title id="fnp-t">Arguments flow into parameters</title>
+          <desc id="fnp-d">The call calcArea(4, 5) passes 4 into the parameter width and 5 into the parameter height.</desc>
+          <defs>
+            <marker id="ah-arg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="mk-arg"/></marker>
+          </defs>
+          <text class="tag" x="20" y="24">ARGUMENTS · the values you pass in</text>
+          <text class="mono" x="285" y="64" text-anchor="end" dominant-baseline="central">calcArea(</text>
+          <rect class="b-arg" x="295" y="40" width="70" height="48" rx="8"/>
+          <text class="mono tx-arg" x="330" y="64" text-anchor="middle" dominant-baseline="central">4</text>
+          <text class="mono" x="407" y="64" text-anchor="middle" dominant-baseline="central">,</text>
+          <rect class="b-arg" x="450" y="40" width="70" height="48" rx="8"/>
+          <text class="mono tx-arg" x="485" y="64" text-anchor="middle" dominant-baseline="central">5</text>
+          <text class="mono" x="532" y="64" dominant-baseline="central">)</text>
+
+          <path class="flow" d="M330 92 V142" marker-end="url(#ah-arg)"/>
+          <path class="flow" d="M485 92 V142" marker-end="url(#ah-arg)"/>
+          <text class="tag" x="342" y="122">width = 4</text>
+          <text class="tag" x="497" y="122">height = 5</text>
+
+          <text class="mono" x="265" y="172" text-anchor="end" dominant-baseline="central">function calcArea(</text>
+          <rect class="b-prim" x="270" y="148" width="120" height="48" rx="8"/>
+          <text class="mono tx-prim" x="330" y="172" text-anchor="middle" dominant-baseline="central">width</text>
+          <text class="mono" x="407" y="172" text-anchor="middle" dominant-baseline="central">,</text>
+          <rect class="b-prim" x="420" y="148" width="130" height="48" rx="8"/>
+          <text class="mono tx-prim" x="485" y="172" text-anchor="middle" dominant-baseline="central">height</text>
+          <text class="mono" x="556" y="172" dominant-baseline="central">)</text>
+          <text class="tag" x="20" y="224">PARAMETERS · the names that receive them</text>
+        </svg>
+      </figure>
+      <pre class="code"><code>function makeJuice(apples, oranges) {
+  const juice = `Juice with ${apples} apples and ${oranges} oranges.`;
+  return juice;
+}
+
+const appleJuice = makeJuice(5, 0);
+console.log(appleJuice);        <span class="cm">// Juice with 5 apples and 0 oranges.</span>
+console.log(makeJuice(2, 4));   <span class="cm">// Juice with 2 apples and 4 oranges.</span>
+
+makeJuice(2);                   <span class="cm">// a missing argument is undefined: "... and undefined oranges."</span></code></pre>
+    </section>
+
+    <section class="sec" id="fn-return">
+      <div class="sec-head"><span class="sec-no op">3</span><h2><code class="h-op">return</code></h2></div>
+      <p class="sec-lede"><code>return</code> sends a value back to where the function was called. The call is then replaced by that value. <code>return</code> also ends the function immediately: code after it does not run.</p>
+      <pre class="code"><code>function calcAge(birthYear) {
+  return 2030 - birthYear;
+  console.log("Never runs");  <span class="cm">// after return, nothing runs</span>
+}
+
+const age = calcAge(1995);
+console.log(age);  <span class="cm">// 35</span></code></pre>
+      <figure class="ret-lab">
+        <figcaption>Another example. Move the slider to change the argument and follow the value in and back out.</figcaption>
+        <pre class="code"><code>function toMinutes(hours) {
+  return hours * 60;
+}</code></pre>
+        <ol class="ret-steps">
+          <li><small>1 · the call</small><code>const minutes = toMinutes(<b class="r-arg" id="ret-a1">3</b>);</code></li>
+          <li><small>2 · inside the body</small><code>return <b class="r-arg" id="ret-a2">3</b> * 60;</code></li>
+          <li><small>3 · the call is replaced by the value</small><code>const minutes = <b class="r-out" id="ret-out">180</b>;</code></li>
+        </ol>
+        <div class="tern-ctl">
+          <label for="ret-in">hours</label>
+          <input type="range" id="ret-in" min="0" max="24" step="1" value="3">
+          <code class="tern-score-v" id="ret-in-v">3</code>
+        </div>
+      </figure>
+      <p>A function without <code>return</code> gives back <code>undefined</code>. Logging a value is not the same as returning it.</p>
+      <pre class="code"><code>function logAge(birthYear) {
+  console.log(2030 - birthYear);
+}
+
+const result = logAge(1995);  <span class="cm">// logs 35</span>
+console.log(result);          <span class="cm">// undefined, nothing was returned</span></code></pre>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="fn-decl-expr" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Function declarations vs expressions</h1><p class="lede">Two ways to write a function, and the one real difference between them.</p></div>
+    <div class="prose"><div class="defn"><p>There are two ways to define a function with the <code>function</code> keyword:</p><ol class="kinds"><li>A <b>declaration</b> starts with <code>function</code> and a name.</li><li>An <b>expression</b> is a function without a name, stored in a variable.</li></ol></div></div>
+
+    <section class="sec" id="decl-expr-syntax">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Side by side</h2></div>
+      <p class="sec-lede">Both are called the same way and give the same result.</p>
+      <pre class="code"><code><span class="cm">// declaration</span>
+function calcAge1(birthYear) {
+  return 2030 - birthYear;
+}
+
+<span class="cm">// expression: an anonymous function stored in a variable</span>
+const calcAge2 = function (birthYear) {
+  return 2030 - birthYear;
+};
+
+console.log(calcAge1(1995), calcAge2(1995));  <span class="cm">// 35 35</span></code></pre>
+      <p>The expression version works because a function is a value, just like a number or a string. Functions are objects (see <a href="#values">Values</a>), and the right side of <code>=</code> is an expression that produces that value (see <a href="#expressions">Statements and expressions</a>).</p>
+    </section>
+
+    <section class="sec" id="hoisting">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Calling before defining</h2></div>
+      <p class="sec-lede">A declaration can be called on a line above the one where it is defined. This is called <b>hoisting</b>. An expression cannot: the variable holding it does not have a value yet.</p>
+      <pre class="code"><code>console.log(calcAge1(1995));  <span class="cm">// 35, works</span>
+
+function calcAge1(birthYear) {
+  return 2030 - birthYear;
+}
+
+console.log(calcAge2(1995));  <span class="cm">// ReferenceError: Cannot access 'calcAge2' before initialization</span>
+
+const calcAge2 = function (birthYear) {
+  return 2030 - birthYear;
+};</code></pre>
+      <p class="note">Which one to use is mostly preference. Many developers prefer expressions, because they force you to define a function before you use it.</p>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="arrow-functions" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Arrow functions</h1><p class="lede">A shorter way to write function expressions.</p></div>
+    <div class="prose"><div class="defn"><p>An arrow function is a function expression written with <code>=&gt;</code> instead of the <code>function</code> keyword.</p></div></div>
+
+    <section class="sec" id="arrow-short">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>The one-line form</h2></div>
+      <p class="sec-lede">When the body is a single expression, its value is returned automatically. No braces and no <code>return</code>.</p>
+      <pre class="code"><code>const calcAge3 = birthYear =&gt; 2030 - birthYear;
+console.log(calcAge3(1995));  <span class="cm">// 35</span>
+
+const calcAverage = (a, b, c) =&gt; (a + b + c) / 3;
+console.log(calcAverage(3, 4, 5));  <span class="cm">// 4</span></code></pre>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Parameters</th><th>Syntax</th></tr></thead>
+          <tbody>
+            <tr><td>One</td><td><code>x =&gt; x * 2</code></td></tr>
+            <tr><td>Several</td><td><code>(a, b) =&gt; a + b</code></td></tr>
+            <tr><td>None</td><td><code>() =&gt; "hi"</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec" id="arrow-block">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>With a body</h2></div>
+      <p class="sec-lede">For more than one line, use braces. Then <code>return</code> is required again.</p>
+      <pre class="code"><code>const yearsUntilRetirement = (birthYear, firstName) =&gt; {
+  const age = 2030 - birthYear;
+  const retirement = 65 - age;
+  return `${firstName} retires in ${retirement} years`;
+};
+
+console.log(yearsUntilRetirement(1995, "Anna"));  <span class="cm">// Anna retires in 30 years</span>
+console.log(yearsUntilRetirement(1980, "Marc"));  <span class="cm">// Marc retires in 15 years</span></code></pre>
+      <div class="pit">
+        <p><b>Braces without <code>return</code>.</b> With braces, nothing is returned automatically.</p>
+        <pre class="code"><code>const double = x =&gt; { x * 2 };  <span class="cm">// returns undefined</span>
+const double2 = x =&gt; x * 2;     <span class="cm">// returns x * 2</span></code></pre>
+      </div>
+    </section>
+
+    <section class="sec" id="fn-compare">
+      <div class="sec-head"><span class="sec-no op">3</span><h2>Three ways to write a function</h2></div>
+      <p class="sec-lede">All three take input, run code and can return a value.</p>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Kind</th><th>Syntax</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Declaration</td><td><code>function calc(y) { return 2030 - y; }</code></td><td>Can be called before it is defined</td></tr>
+            <tr><td>Expression</td><td><code>const calc = function (y) { … };</code></td><td>A function value stored in a variable</td></tr>
+            <tr><td>Arrow</td><td><code>const calc = y =&gt; 2030 - y;</code></td><td>Short, returns automatically, has no own <code>this</code> (see <a href="#object-methods">Object methods</a>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec" id="arrow-example">
+      <div class="sec-head"><span class="sec-no op">4</span><h2>Example: functions working together</h2></div>
+      <p class="sec-lede">Two teams play 3 rounds each. A team only wins if its average is at least double the other team's.</p>
+      <pre class="code"><code>const calcAverage = (a, b, c) =&gt; (a + b + c) / 3;
+
+const checkWinner = function (avgDolphins, avgKoalas) {
+  if (avgDolphins &gt;= 2 * avgKoalas) {
+    console.log(`Dolphins win (${avgDolphins} vs. ${avgKoalas})`);
+  } else if (avgKoalas &gt;= 2 * avgDolphins) {
+    console.log(`Koalas win (${avgKoalas} vs. ${avgDolphins})`);
+  } else {
+    console.log("No team wins");
+  }
+};
+
+checkWinner(calcAverage(85, 54, 41), calcAverage(23, 34, 27));
+<span class="cm">// Dolphins win (60 vs. 28)</span></code></pre>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="arrays" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Arrays</h1><p class="lede">Storing a list of values in a single variable.</p></div>
+    <div class="prose"><div class="defn"><p>An array is an ordered list of values. Each value has a position, called its <b>index</b>. The first index is <code>0</code>.</p></div></div>
+
+    <section class="sec" id="array-create">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Creating an array</h2></div>
+      <p class="sec-lede">Write the values in square brackets, separated by commas.</p>
+      <pre class="code"><code>const friends = ["Lena", "Tom", "Marc"];
+console.log(friends);  <span class="cm">// ["Lena", "Tom", "Marc"]</span>
+
+const years = new Array(1995, 2012, 1998);  <span class="cm">// also works, but rarely used</span></code></pre>
+      <p class="note">Avoid <code>new Array()</code>. With a single number it behaves differently: <code>new Array(3)</code> creates 3 empty slots, not the array <code>[3]</code>.</p>
+    </section>
+
+    <section class="sec" id="array-read">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Reading values</h2></div>
+      <p class="sec-lede">Put the index in square brackets. <code>.length</code> is the number of values, so the last index is always <code>length - 1</code>.</p>
+      <pre class="code"><code>friends[0];                   <span class="cm">// "Lena", the first value</span>
+friends[2];                   <span class="cm">// "Marc"</span>
+friends.length;               <span class="cm">// 3</span>
+friends[friends.length - 1];  <span class="cm">// "Marc", the last value</span>
+friends[5];                   <span class="cm">// undefined, nothing at that index</span></code></pre>
+      <p class="note">Any expression can go inside the brackets, like <code>friends.length - 1</code> above.</p>
+    </section>
+
+    <section class="sec" id="array-change">
+      <div class="sec-head"><span class="sec-no op">3</span><h2>Changing values</h2></div>
+      <p class="sec-lede">Assign to an index to replace that value. This works on a <code>const</code> array: <code>const</code> only stops you from replacing the whole array.</p>
+      <pre class="code"><code>const friends = ["Lena", "Tom", "Marc"];
+
+friends[2] = "Jay";
+console.log(friends);  <span class="cm">// ["Lena", "Tom", "Jay"]</span>
+
+friends = ["Bob", "Alice"];  <span class="cm">// TypeError: Assignment to constant variable.</span></code></pre>
+      <p class="note">See <a href="#const">const</a> on the let, const and var page.</p>
+    </section>
+
+    <section class="sec" id="array-values">
+      <div class="sec-head"><span class="sec-no op">4</span><h2>Any values, including expressions</h2></div>
+      <p class="sec-lede">An array can hold values of different types, other arrays, and expressions such as calculations and function calls. Each expression is replaced by its value.</p>
+      <pre class="code"><code>const firstName = "Anna";
+const anna = [firstName, "Weber", 2030 - 1995, "designer", friends];
+console.log(anna.length);  <span class="cm">// 5</span>
+
+const calcAge = function (birthYear) {
+  return 2030 - birthYear;
+};
+const years = [1995, 1967, 2012];
+const ages = [calcAge(years[0]), calcAge(years[1]), calcAge(years[years.length - 1])];
+console.log(ages);  <span class="cm">// [35, 63, 18]</span></code></pre>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="array-methods" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Basic array methods</h1><p class="lede">Adding, removing and finding values in an array.</p></div>
+    <div class="prose"><div class="defn"><p>A method is a function that belongs to a value. Arrays come with many built-in methods, called with a dot: <code>friends.push("Jay")</code>.</p></div></div>
+
+    <section class="sec" id="methods-overview">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Overview</h2></div>
+      <p class="sec-lede">The first four change the array itself. Note what each one returns.</p>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Method</th><th>What it does</th><th>Returns</th></tr></thead>
+          <tbody>
+            <tr><td><code>push(x)</code></td><td>Adds to the end</td><td>The new length</td></tr>
+            <tr><td><code>unshift(x)</code></td><td>Adds to the start</td><td>The new length</td></tr>
+            <tr><td><code>pop()</code></td><td>Removes the last value</td><td>The removed value</td></tr>
+            <tr><td><code>shift()</code></td><td>Removes the first value</td><td>The removed value</td></tr>
+            <tr><td><code>indexOf(x)</code></td><td>Finds a value</td><td>Its index, or <code>-1</code> if not found</td></tr>
+            <tr><td><code>includes(x)</code></td><td>Checks for a value</td><td><code>true</code> or <code>false</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec" id="methods-add">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Adding values</h2></div>
+      <pre class="code"><code>const friends = ["Lena", "Tom", "Marc"];
+
+const newLength = friends.push("Jay");
+console.log(friends);    <span class="cm">// ["Lena", "Tom", "Marc", "Jay"]</span>
+console.log(newLength);  <span class="cm">// 4</span>
+
+friends.unshift("John");
+console.log(friends);    <span class="cm">// ["John", "Lena", "Tom", "Marc", "Jay"]</span></code></pre>
+    </section>
+
+    <section class="sec" id="methods-remove">
+      <div class="sec-head"><span class="sec-no op">3</span><h2>Removing values</h2></div>
+      <pre class="code"><code>const popped = friends.pop();
+console.log(popped);   <span class="cm">// "Jay"</span>
+
+friends.shift();       <span class="cm">// removes "John"</span>
+console.log(friends);  <span class="cm">// ["Lena", "Tom", "Marc"]</span></code></pre>
+    </section>
+
+    <section class="sec" id="methods-find">
+      <div class="sec-head"><span class="sec-no op">4</span><h2>Finding values</h2></div>
+      <p class="sec-lede"><code>includes</code> uses strict equality (<code>===</code>), so the type must match too. It is the usual choice inside an <code>if</code>.</p>
+      <pre class="code"><code>friends.indexOf("Tom");   <span class="cm">// 1</span>
+friends.indexOf("Bob");   <span class="cm">// -1, not in the array</span>
+
+friends.push(23);
+friends.includes("Tom");  <span class="cm">// true</span>
+friends.includes(23);     <span class="cm">// true</span>
+friends.includes("23");   <span class="cm">// false, "23" is a string, not the number 23</span>
+
+if (friends.includes("Tom")) {
+  console.log("You have a friend called Tom");
+}</code></pre>
+      <p class="note">Why <code>===</code> matters: see <a href="#equality">Equality</a>.</p>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="objects-intro" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Objects</h1><p class="lede">Grouping related values under names instead of positions.</p></div>
+    <div class="prose"><div class="defn"><p>An object stores <b>key–value pairs</b>. Each value has a name, called its key or property. Objects are written with curly braces.</p></div></div>
+
+    <section class="sec" id="object-literal">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Creating an object</h2></div>
+      <p class="sec-lede">Write each property as <code>key: value</code>, separated by commas. A value can be anything: a string, a number, an expression, an array, another object.</p>
+      <pre class="code"><code>const anna = {
+  firstName: "Anna",
+  lastName: "Weber",
+  age: 2030 - 1995,
+  job: "designer",
+  friends: ["Lena", "Tom", "Marc"]
+};</code></pre>
+    </section>
+
+    <section class="sec" id="object-vs-array">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Objects vs arrays</h2></div>
+      <p class="sec-lede">The same data in an array only has positions. You have to remember that index 3 is the job. In an object, every value is labelled.</p>
+      <pre class="code"><code>const annaArray = ["Anna", "Weber", 35, "designer", ["Lena", "Tom", "Marc"]];
+annaArray[3];  <span class="cm">// "designer", but you have to know that 3 is the job</span>
+
+anna.job;      <span class="cm">// "designer"</span></code></pre>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Use</th><th>For</th><th>Access by</th></tr></thead>
+          <tbody>
+            <tr><td>Array</td><td>Ordered lists of similar values</td><td>Position: <code>friends[0]</code></td></tr>
+            <tr><td>Object</td><td>Named values that belong together; the order does not matter</td><td>Name: <code>anna.job</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="dot-bracket" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Dot vs bracket notation</h1><p class="lede">Two ways to read and write object properties.</p></div>
+    <div class="prose"><div class="defn"><p>Use <b>dot notation</b> when you know the property name as you write the code. Use <b>bracket notation</b> when the name is computed or stored in a variable.</p></div></div>
+
+    <section class="sec" id="dot-read">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Reading a property</h2></div>
+      <p class="sec-lede">Both give the same result. In brackets, the name is a string.</p>
+      <pre class="code"><code>anna.lastName;     <span class="cm">// "Weber"</span>
+anna["lastName"];  <span class="cm">// "Weber"</span>
+anna.middleName;   <span class="cm">// undefined, the property does not exist</span></code></pre>
+    </section>
+
+    <section class="sec" id="bracket-computed">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Computed names</h2></div>
+      <p class="sec-lede">Brackets accept any expression, so the property name can be built while the code runs. The dot needs the real name.</p>
+      <pre class="code"><code>const nameKey = "Name";
+
+anna["first" + nameKey];  <span class="cm">// "Anna"</span>
+anna["last" + nameKey];   <span class="cm">// "Weber"</span>
+
+anna."last" + nameKey;    <span class="cm">// SyntaxError</span></code></pre>
+    </section>
+
+    <section class="sec" id="bracket-user">
+      <div class="sec-head"><span class="sec-no op">3</span><h2>A property chosen by the user</h2></div>
+      <p class="sec-lede"><code>prompt()</code> returns the text the user typed, so the property name is only known while the code runs. Bracket notation is the only option here. The <code>in</code> operator checks whether the property exists.</p>
+      <pre class="code"><code>const key = prompt("What do you want to know? firstName, lastName, age, job or friends");
+
+if (key in anna) {
+  console.log(anna[key]);
+} else {
+  console.log("Wrong request!");
+}</code></pre>
+      <div class="pit">
+        <p><b>Checking with <code>if (anna[key])</code>.</b> This tests the value, not whether the property exists. A property with a falsy value, such as <code>hasLicense: false</code> or <code>age: 0</code>, would count as "Wrong request!". Same pitfall as <a href="#pitfall">0 is a real value</a>.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="object-add">
+      <div class="sec-head"><span class="sec-no op">4</span><h2>Adding properties</h2></div>
+      <p class="sec-lede">Assigning to a property that does not exist yet creates it. Both notations work.</p>
+      <pre class="code"><code>anna.location = "Berlin";
+anna["instagram"] = "@anna.weber";
+
+console.log(`${anna.firstName} has ${anna.friends.length} friends, and her best friend is called ${anna.friends[0]}`);
+<span class="cm">// Anna has 3 friends, and her best friend is called Lena</span></code></pre>
+      <p class="note"><code>anna.friends.length</code> is read from left to right: first <code>anna.friends</code>, then the <code>length</code> of that array.</p>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="object-methods" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Object methods</h1><p class="lede">Functions stored in an object, and the <code>this</code> keyword.</p></div>
+    <div class="prose"><div class="defn"><p>A <b>method</b> is a function stored as an object property. Inside a method, <code>this</code> is the object the method was called on.</p></div></div>
+
+    <section class="sec" id="method-add">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Adding a method</h2></div>
+      <p class="sec-lede">The value of the property is a function expression. You call it with a dot and parentheses.</p>
+      <pre class="code"><code>const anna = {
+  firstName: "Anna",
+  birthYear: 1995,
+  job: "designer",
+  hasLicense: true,
+
+  calcAge: function (birthYear) {
+    return 2030 - birthYear;
+  }
+};
+
+anna.calcAge(1995);  <span class="cm">// 35</span></code></pre>
+      <p class="note">Array methods work the same way: arrays are objects, and <code>push</code> is one of their methods.</p>
+    </section>
+
+    <section class="sec" id="this">
+      <div class="sec-head"><span class="sec-no op">2</span><h2><code class="h-op">this</code></h2></div>
+      <p class="sec-lede">Passing <code>1995</code> in is repetitive: the object already has the birth year. With <code>this</code>, the method reads it from the object it was called on, the one before the dot.</p>
+      <pre class="code"><code>calcAge: function () {
+  return 2030 - this.birthYear;
+}
+
+anna.calcAge();  <span class="cm">// 35, this is anna</span></code></pre>
+      <p>Why not write <code>anna.birthYear</code>? Because the method should not depend on the variable name. With <code>this</code>, the same method works on any object it is copied to.</p>
+      <div class="pit">
+        <p><b>Arrow functions as methods.</b> Arrow functions have no <code>this</code> of their own, so <code>this</code> is not the object.</p>
+        <pre class="code"><code>calcAge: () =&gt; 2030 - this.birthYear  <span class="cm">// NaN, this is not anna</span></code></pre>
+      </div>
+    </section>
+
+    <section class="sec" id="method-store">
+      <div class="sec-head"><span class="sec-no op">3</span><h2>Storing a result on the object</h2></div>
+      <p class="sec-lede">A method can create a new property with <code>this</code>. Calculate once, then read the stored value.</p>
+      <pre class="code"><code>calcAge: function () {
+  this.age = 2030 - this.birthYear;
+  return this.age;
+}
+
+anna.calcAge();  <span class="cm">// 35, calculates and stores it</span>
+anna.age;        <span class="cm">// 35, no new calculation</span></code></pre>
+    </section>
+
+    <section class="sec" id="method-calls-method">
+      <div class="sec-head"><span class="sec-no op">4</span><h2>A method calling a method</h2></div>
+      <p class="sec-lede">Inside a method, other methods of the same object are called with <code>this</code> too.</p>
+      <pre class="code"><code>getSummary: function () {
+  return `${this.firstName} is a ${this.calcAge()}-year-old ${this.job}, and she has ${this.hasLicense ? "a" : "no"} driver's license.`;
+}
+
+anna.getSummary();
+<span class="cm">// "Anna is a 35-year-old designer, and she has a driver's license."</span></code></pre>
+      <p class="note">Use <code>this</code> for every property. Mixing in <code>anna.job</code> works only as long as the object is called <code>anna</code>.</p>
+    </section>
+
+    <section class="sec" id="method-example">
+      <div class="sec-head"><span class="sec-no op">5</span><h2>Example: the same method on two objects</h2></div>
+      <p class="sec-lede">Each object calculates its own BMI with <code>this</code>. <code>toFixed(1)</code> rounds the result to one decimal for display.</p>
+      <pre class="code"><code>const mark = {
+  fullName: "Mark Miller",
+  mass: 78,
+  height: 1.69,
+  calcBMI: function () {
+    this.bmi = this.mass / this.height ** 2;
+    return this.bmi;
+  }
+};
+
+const john = {
+  fullName: "John Smith",
+  mass: 92,
+  height: 1.95,
+  calcBMI: mark.calcBMI  <span class="cm">// the same function, this is john when called on john</span>
+};
+
+mark.calcBMI();
+john.calcBMI();
+
+if (mark.bmi &gt; john.bmi) {
+  console.log(`${mark.fullName}'s BMI (${mark.bmi.toFixed(1)}) is higher than ${john.fullName}'s (${john.bmi.toFixed(1)})`);
+} else {
+  console.log(`${john.fullName}'s BMI (${john.bmi.toFixed(1)}) is higher than ${mark.fullName}'s (${mark.bmi.toFixed(1)})`);
+}
+<span class="cm">// Mark Miller's BMI (27.3) is higher than John Smith's (24.2)</span></code></pre>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="for-loop" hidden>
+    <div class="head"><div class="crumbs"></div><h1>The for loop</h1><p class="lede">Repeating code a set number of times.</p></div>
+    <div class="prose"><div class="defn"><p>A <code>for</code> loop runs its block again and again, as long as its condition is <code>true</code>. Each run is called an <b>iteration</b>.</p></div></div>
+
+    <section class="sec" id="for-structure">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Structure</h2></div>
+      <p class="sec-lede">Instead of writing the same line 10 times, write it once and let the loop repeat it.</p>
+      <pre class="code"><code>for (let rep = 1; rep &lt;= 10; rep++) {
+  console.log(`Lifting weights repetition ${rep}`);
+}
+<span class="cm">// Lifting weights repetition 1</span>
+<span class="cm">// Lifting weights repetition 2</span>
+<span class="cm">// ...</span>
+<span class="cm">// Lifting weights repetition 10</span></code></pre>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Part</th><th>Code</th><th>When it runs</th></tr></thead>
+          <tbody>
+            <tr><td>Start</td><td><code>let rep = 1</code></td><td>Once, before the first iteration</td></tr>
+            <tr><td>Condition</td><td><code>rep &lt;= 10</code></td><td>Before each iteration. When it is <code>false</code>, the loop stops</td></tr>
+            <tr><td>Update</td><td><code>rep++</code></td><td>After each iteration</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">If the condition never becomes <code>false</code>, the loop never ends and the page freezes. This is an infinite loop.</p>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="looping-arrays" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Looping arrays, break and continue</h1><p class="lede">Going through every value in an array, and controlling when a loop skips or stops.</p></div>
+    <div class="prose"><div class="defn"><p>To loop over an array, count the index from <code>0</code> up to <code>length - 1</code>, and read <code>array[i]</code> in each iteration.</p></div></div>
+
+    <section class="sec" id="loop-array">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Reading every value</h2></div>
+      <p class="sec-lede">The condition is <code>i &lt; anna.length</code>, not <code>&lt;=</code>: the last index is one less than the length.</p>
+      <pre class="code"><code>const anna = ["Anna", "Weber", 2030 - 1995, "designer", ["Lena", "Tom"], true];
+const types = [];
+
+for (let i = 0; i &lt; anna.length; i++) {
+  console.log(anna[i], typeof anna[i]);
+  types.push(typeof anna[i]);
+}
+
+console.log(types);
+<span class="cm">// ["string", "string", "number", "string", "object", "boolean"]</span></code></pre>
+      <p class="note">Using <code>anna.length</code> instead of the number 6 means the loop still works when values are added or removed.</p>
+    </section>
+
+    <section class="sec" id="loop-build">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Building a new array</h2></div>
+      <p class="sec-lede">Start with an empty array and <code>push</code> a result in each iteration.</p>
+      <pre class="code"><code>const years = [1995, 2012, 1969, 2020];
+const ages = [];
+
+for (let i = 0; i &lt; years.length; i++) {
+  ages.push(2030 - years[i]);
+}
+console.log(ages);  <span class="cm">// [35, 18, 61, 10]</span></code></pre>
+      <p>The same pattern fills several arrays at once. Here a tip is 15% for bills between 50 and 300, and 20% otherwise:</p>
+      <pre class="code"><code>const calcTip = bill =&gt; bill &gt;= 50 &amp;&amp; bill &lt;= 300 ? bill * 0.15 : bill * 0.2;
+
+const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+const tips = [];
+const totals = [];
+
+for (let i = 0; i &lt; bills.length; i++) {
+  const tip = calcTip(bills[i]);
+  tips.push(tip);
+  totals.push(bills[i] + tip);
+}</code></pre>
+    </section>
+
+    <section class="sec" id="loop-sum">
+      <div class="sec-head"><span class="sec-no op">3</span><h2>Adding up values</h2></div>
+      <p class="sec-lede">Start a <code>sum</code> at 0 and add each value to it. Dividing by the length gives the average.</p>
+      <pre class="code"><code>const calcAverage = function (arr) {
+  let sum = 0;
+  for (let i = 0; i &lt; arr.length; i++) {
+    sum += arr[i];
+  }
+  return sum / arr.length;
+};
+
+console.log(calcAverage([2, 3, 7]));  <span class="cm">// 4</span>
+console.log(calcAverage(totals));     <span class="cm">// the average total of the bills above</span></code></pre>
+    </section>
+
+    <section class="sec" id="loop-continue">
+      <div class="sec-head"><span class="sec-no op">4</span><h2><code class="h-op">continue</code></h2></div>
+      <p class="sec-lede"><code>continue</code> skips the rest of the current iteration and goes on with the next one.</p>
+      <pre class="code"><code>for (let i = 0; i &lt; anna.length; i++) {
+  if (typeof anna[i] !== "string") continue;
+  console.log(anna[i]);
+}
+<span class="cm">// Anna</span>
+<span class="cm">// Weber</span>
+<span class="cm">// designer</span></code></pre>
+    </section>
+
+    <section class="sec" id="loop-break">
+      <div class="sec-head"><span class="sec-no op">5</span><h2><code class="h-op">break</code></h2></div>
+      <p class="sec-lede"><code>break</code> stops the whole loop immediately.</p>
+      <pre class="code"><code>for (let i = 0; i &lt; anna.length; i++) {
+  if (typeof anna[i] === "number") break;
+  console.log(anna[i]);
+}
+<span class="cm">// Anna</span>
+<span class="cm">// Weber</span>
+<span class="cm">// stops at 35, the first number</span></code></pre>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="loops-backwards" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Looping backwards and nested loops</h1><p class="lede">Counting down instead of up, and running a loop inside another loop.</p></div>
+    <div class="prose"><div class="defn"><p>All three parts of a <code>for</code> loop can be changed: where it starts, when it stops and how it counts.</p></div></div>
+
+    <section class="sec" id="loop-backwards">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Looping backwards</h2></div>
+      <p class="sec-lede">Start at the last index, stop after index 0, and count down with <code>i--</code>.</p>
+      <pre class="code"><code>const friends = ["Lena", "Tom", "Marc"];
+
+for (let i = friends.length - 1; i &gt;= 0; i--) {
+  console.log(i, friends[i]);
+}
+<span class="cm">// 2 Marc</span>
+<span class="cm">// 1 Tom</span>
+<span class="cm">// 0 Lena</span></code></pre>
+    </section>
+
+    <section class="sec" id="loop-nested">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>A loop inside a loop</h2></div>
+      <p class="sec-lede">The inner loop runs completely in every iteration of the outer loop.</p>
+      <pre class="code"><code>for (let exercise = 1; exercise &lt;= 3; exercise++) {
+  console.log(`--- Starting exercise ${exercise}`);
+
+  for (let rep = 1; rep &lt;= 5; rep++) {
+    console.log(`Exercise ${exercise}: repetition ${rep}`);
+  }
+}
+<span class="cm">// 3 exercises × 5 repetitions = 15 repetitions in total</span></code></pre>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="while-loop" hidden>
+    <div class="head"><div class="crumbs"></div><h1>The while loop</h1><p class="lede">Repeating code while a condition is true, when you don't know the number of iterations in advance.</p></div>
+    <div class="prose"><div class="defn"><p>A <code>while</code> loop only has a condition. It runs its block as long as the condition is <code>true</code>.</p></div></div>
+
+    <section class="sec" id="while-counter">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>With a counter</h2></div>
+      <p class="sec-lede">The same loop as the <code>for</code> example. The start and the update are now separate lines that you write yourself.</p>
+      <pre class="code"><code>let rep = 1;
+
+while (rep &lt;= 10) {
+  console.log(`Lifting weights repetition ${rep}`);
+  rep++;  <span class="cm">// without this line, rep stays 1 and the loop never ends</span>
+}</code></pre>
+    </section>
+
+    <section class="sec" id="while-unknown">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>When the number of iterations is unknown</h2></div>
+      <p class="sec-lede">Roll a die until it shows a 6. It could take one roll or twenty, so a <code>while</code> loop fits better than a <code>for</code> loop.</p>
+      <pre class="code"><code>let dice = Math.trunc(Math.random() * 6) + 1;
+
+while (dice !== 6) {
+  console.log(`You rolled a ${dice}`);
+  dice = Math.trunc(Math.random() * 6) + 1;
+  if (dice === 6) console.log("Loop is about to end...");
+}</code></pre>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Step</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td><code>Math.random()</code></td><td>A random decimal from 0 up to (not including) 1</td></tr>
+            <tr><td><code>* 6</code></td><td>From 0 up to (not including) 6</td></tr>
+            <tr><td><code>Math.trunc(…)</code></td><td>Cuts off the decimals: 0 to 5</td></tr>
+            <tr><td><code>+ 1</code></td><td>1 to 6</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">If the first roll is already a 6, the condition is <code>false</code> from the start and the loop body never runs.</p>
+    </section>
+
+    <section class="sec" id="for-vs-while">
+      <div class="sec-head"><span class="sec-no op">3</span><h2>for or while?</h2></div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Loop</th><th>Use when</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><code>for</code></td><td>You know how many iterations you need</td><td>Every value in an array, 10 repetitions</td></tr>
+            <tr><td><code>while</code></td><td>It depends on something that happens during the loop</td><td>Rolling until a 6, asking until the input is valid</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
     <div class="pager"></div>
   </article>
 </main>

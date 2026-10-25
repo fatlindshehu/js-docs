@@ -21,10 +21,16 @@
   /* pages: one article visible at a time, chosen by #hash */
   var pages = all('article.doc');
   var navLinks = all('.side .nav-group a');
+  var chapters = all('.side .nav-chap');
+  /* page id -> its nav item: a link, or a chapter's summary for the chapter's own page */
   var navById = {};
-  navLinks.forEach(function (a, i) {
-    a.insertBefore(el('span', 'nav-n', String(i + 1)), a.firstChild);
-    navById[a.hash.slice(1)] = a;
+  navLinks.forEach(function (a) { navById[a.hash.slice(1)] = a; });
+  chapters.forEach(function (d) {
+    var s = d.querySelector('summary');
+    navById[d.dataset.page] = s;
+    all('a', d).forEach(function (a, i) { a.insertBefore(el('span', 'nav-n', String(i + 1)), a.firstChild); });
+    /* clicking a closed chapter opens it and shows its overview page */
+    s.addEventListener('click', function () { if (!d.open) location.hash = d.dataset.page; });
   });
   var current = null;
   function route() {
@@ -39,18 +45,20 @@
       var hid = a.hash.slice(1);
       a.classList.toggle('on', hid === page.id || (target !== page && hid === target.id));
     });
+    chapters.forEach(function (d) {
+      d.querySelector('summary').classList.toggle('on', d.dataset.page === page.id);
+      if (d.contains(navById[page.id])) d.open = true;
+    });
     if (target === page) { window.scrollTo(0, 0); } else { target.scrollIntoView(); }
     if (changed && page.id === 'values') play();
   }
 
-  /* breadcrumbs come from the nav headings above the page's link, the pager from neighbouring pages */
+  /* breadcrumbs come from the nav group and chapter around the page's nav item, the pager from neighbouring pages */
   function title(pg) { return pg.querySelector('h1').textContent; }
-  function crumbPath(a) {
-    var path = [];
-    for (var n = a.previousElementSibling; n; n = n.previousElementSibling) {
-      if (n.classList.contains('nav-sub') && !path.length) path.push(n.textContent);
-      if (n.classList.contains('nav-h')) { path.unshift(n.textContent); break; }
-    }
+  function crumbPath(item) {
+    var path = [item.closest('.nav-group').querySelector('.nav-h').textContent];
+    var chap = item.closest('.nav-chap');
+    if (chap && item.tagName === 'A') path.push(chap.querySelector('summary').textContent);
     return path;
   }
   function link(other, cls, label) {
@@ -70,6 +78,20 @@
     if (!box) return;
     if (pages[i - 1]) box.appendChild(link(pages[i - 1], 'prev', 'Previous'));
     if (pages[i + 1]) box.appendChild(link(pages[i + 1], 'next', 'Next'));
+  });
+  /* chapter overview: one card per page in the chapter, built from the page's h1 and lede */
+  all('article.doc .toc').forEach(function (ol) {
+    all('a', navById[ol.closest('article').id].closest('.nav-chap')).forEach(function (a) {
+      var pg = $(a.hash.slice(1));
+      var card = el('a');
+      card.href = a.hash;
+      card.appendChild(el('span', 'sec-no op', a.querySelector('.nav-n').textContent));
+      card.appendChild(el('span', 'toc-t', title(pg)));
+      card.appendChild(el('span', 'toc-d', pg.querySelector('.lede').textContent));
+      var li = el('li');
+      li.appendChild(card);
+      ol.appendChild(li);
+    });
   });
   window.addEventListener('hashchange', route);
   route();
@@ -168,6 +190,18 @@
   tScore.addEventListener('input', tern);
   tern();
 
+  /* return stepper */
+  var rIn = $('ret-in');
+  function retStep() {
+    var h = rIn.value;
+    $('ret-in-v').textContent = h;
+    $('ret-a1').textContent = h;
+    $('ret-a2').textContent = h;
+    $('ret-out').textContent = h * 60;
+  }
+  rIn.addEventListener('input', retStep);
+  retStep();
+
   var btn = $('menu-btn');
   function setNav(open) {
     document.body.classList.toggle('nav-open', open);
@@ -180,6 +214,7 @@
   var search = $('search');
   search.addEventListener('input', function () {
     var q = search.value.trim().toLowerCase();
+    if (q) chapters.forEach(function (d) { d.open = true; });
     navLinks.forEach(function (a) {
       a.hidden = q && a.textContent.toLowerCase().indexOf(q) === -1;
     });
