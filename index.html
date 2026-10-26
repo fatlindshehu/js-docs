@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Dev Docs</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -57,6 +58,16 @@
         <a href="#looping-arrays">Looping arrays, break and continue</a>
         <a href="#loops-backwards">Backwards and nested loops</a>
         <a href="#while-loop">The while loop</a>
+      </div>
+    </details>
+    <details class="nav-chap" data-page="async">
+      <summary>Async JavaScript</summary>
+      <div class="nav-list">
+        <a href="#call-stack">The call stack</a>
+        <a href="#runtime">Behind the scenes</a>
+        <a href="#ajax">AJAX calls</a>
+        <a href="#fetch">fetch</a>
+        <a href="#promises">Promises</a>
       </div>
     </details>
   </div>
@@ -178,7 +189,6 @@ console.log("Total:", 61);      <span class="cm">// Total: 61</span></code></pre
       </div>
       <p class="sec-lede">These are the most common ones. Any other value that is not a primitive is also an object.</p>
     </section>
-
     <div class="pager"></div>
   </article>
 
@@ -1672,6 +1682,363 @@ while (dice !== 6) {
           </tbody>
         </table>
       </div>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="async" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Async JavaScript</h1><p class="lede">How JavaScript runs code, and how it handles work that takes time.</p></div>
+    <ol class="toc"></ol>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="call-stack" hidden>
+    <div class="head"><div class="crumbs"></div><h1>The call stack</h1><p class="lede">How JavaScript keeps track of which function is running right now.</p></div>
+    <div class="prose"><div class="defn"><p>The call stack is a <b>LIFO</b> (last in, first out) data structure the JavaScript engine uses to track function calls. It records which function is running and where to go back to when it finishes.</p></div></div>
+
+    <section class="sec" id="stack-lifo">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>Last in, first out</h2></div>
+      <p class="sec-lede">Like a stack of plates: you add to the top and take from the top. The last function called is the first one to finish.</p>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td>Push</td><td>A function is called and added to the top of the stack</td></tr>
+            <tr><td>Pop</td><td>A function returns and is removed from the top</td></tr>
+            <tr><td>Stack frame</td><td>One entry on the stack, also called an execution context. It holds the function's local variables and where to return to.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec" id="stack-follow">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Following the stack</h2></div>
+      <p class="sec-lede">Each call pushes a new frame on top. Only the top frame runs; the ones below are paused, waiting for it to return. When it returns, its frame is popped and the function below continues where it left off.</p>
+      <figure class="cs-lab" id="cs-lab">
+        <div class="cs-grid">
+          <pre class="code cs-code"><code id="cs-code"></code></pre>
+          <div class="cs-side">
+            <div class="cs-h">Call stack</div>
+            <div class="cs-stack" id="cs-stack" aria-live="polite"></div>
+            <div class="cs-h">Console</div>
+            <div class="cs-out" id="cs-out"></div>
+          </div>
+        </div>
+        <p class="cs-say" id="cs-say"></p>
+        <div class="cs-ctl">
+          <button class="replay" id="cs-prev">Previous</button>
+          <button class="replay" id="cs-play">Play</button>
+          <button class="replay" id="cs-next">Next</button>
+          <button class="replay" id="cs-reset">Reset</button>
+          <span class="cs-count" id="cs-count"></span>
+        </div>
+      </figure>
+    </section>
+    <section class="sec" id="stack-one">
+      <div class="sec-head"><span class="sec-no op">3</span><h2>One stack, one thing at a time</h2></div>
+      <p class="sec-lede">JavaScript has one call stack, so it can only run one piece of code at a time. The engine (V8 in Chrome and Node.js) runs whatever is on top, and nothing else runs until it finishes.</p>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="runtime" hidden>
+    <div class="head"><div class="crumbs"></div><h1>How JavaScript works behind the scenes</h1><p class="lede">The runtime around your code, and where slow work goes while JavaScript keeps running.</p></div>
+    <div class="prose"><div class="defn"><p>JavaScript runs inside a <b>runtime</b>, such as the browser or Node.js. The engine runs your code on one call stack, and the runtime around it handles slow work, so the stack never has to wait.</p></div></div>
+
+    <section class="sec" id="rt-parts">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>The parts of the runtime</h2></div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Part</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>JS engine</td><td>Runs your code. V8 in Chrome and Node.js. It has two parts: the <b>call stack</b>, where code executes one frame at a time, and the <b>heap</b>, where objects and arrays are stored in memory.</td></tr>
+            <tr><td>Web APIs</td><td>Features the browser provides that are not part of JavaScript itself: <code>setTimeout</code>, <code>fetch</code>, DOM events. Slow work such as timers and network requests happens here, outside the call stack.</td></tr>
+            <tr><td>Callback queue</td><td>When a Web API finishes, its callback waits here in line.</td></tr>
+            <tr><td>Event loop</td><td>Keeps checking whether the call stack is empty. When it is, it moves the next callback from the queue onto the stack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec" id="rt-run">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Watching it run</h2></div>
+      <p class="sec-lede">Follow the callback of <code>setTimeout</code>: from the call stack to the Web APIs, into the callback queue, and back onto the stack through the event loop.</p>
+      <figure class="rt-lab">
+        <div class="cs-grid">
+          <pre class="code cs-code"><code id="rt-code"></code></pre>
+          <div class="cs-side">
+            <div class="cs-h">Console</div>
+            <div class="cs-out" id="rt-out"></div>
+            <p class="cs-say" id="rt-say"></p>
+          </div>
+        </div>
+        <div class="rt" id="rt">
+          <div class="rt-box rt-eng">
+            <div class="cs-h">JS engine</div>
+            <div class="rt-eng-in">
+              <div><div class="rt-sub">Call stack</div><div class="rt-stack" id="rt-stack"></div></div>
+              <div><div class="rt-sub">Heap</div><div class="rt-heap" id="rt-heap"></div></div>
+            </div>
+          </div>
+          <div class="rt-arrow rt-a1" data-a="sw" aria-hidden="true">→</div>
+          <div class="rt-box rt-web"><div class="cs-h">Web APIs</div><div class="rt-list" id="rt-web"></div></div>
+          <div class="rt-arrow rt-a2" data-a="wq" aria-hidden="true">↓</div>
+          <div class="rt-box rt-loop" id="rt-loop">
+            <div class="cs-h">Event loop</div>
+            <div class="rt-loop-in">
+              <svg class="rt-spin" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M20 4v4.5h-4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span id="rt-loop-t"></span>
+            </div>
+          </div>
+          <div class="rt-arrow rt-a3" data-a="ql" aria-hidden="true">←</div>
+          <div class="rt-box rt-queue"><div class="cs-h">Callback queue</div><div class="rt-list rt-row" id="rt-queue"></div></div>
+          <div class="rt-arrow rt-a4" data-a="ls" aria-hidden="true">↑</div>
+        </div>
+        <div class="cs-ctl">
+          <button class="replay" id="rt-prev">Previous</button>
+          <button class="replay" id="rt-play">Play</button>
+          <button class="replay" id="rt-next">Next</button>
+          <button class="replay" id="rt-reset">Reset</button>
+          <span class="cs-count" id="rt-count"></span>
+        </div>
+      </figure>
+    </section>
+
+    <section class="sec" id="rt-nonblocking">
+      <div class="sec-head"><span class="sec-no op">3</span><h2>Single-threaded, but not blocking</h2></div>
+      <p class="sec-lede">JavaScript has only one call stack, yet it does not freeze while it waits. The slow work happens in the browser, and the result comes back through the queue when the stack is free.</p>
+      <p class="note">Promises use a separate, higher-priority queue called the microtask queue. It is covered on its own page.</p>
+    </section>
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="ajax" hidden>
+    <div class="head"><div class="crumbs"></div><h1>AJAX calls</h1><p class="lede">Asking a server for data in the background, without reloading the page.</p></div>
+    <section class="sec" id="ajax-xhr">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>The old way: <code class="h-op">XMLHttpRequest</code></h2></div>
+      <p class="sec-lede">Before <code>fetch</code>, AJAX calls were made with <code>XMLHttpRequest</code>, a Web API that reports the result through a callback. Here it loads a country and shows it as a card.</p>
+      <figure class="xr-lab">
+        <pre class="code cs-code"><code id="xr-code"></code></pre>
+        <p class="cs-say" id="xr-say"></p>
+        <div class="xr-grid">
+          <div class="rt-box">
+            <div class="cs-h">The request object</div>
+            <div class="xr-rows" id="xr-req"></div>
+          </div>
+          <div class="rt-box">
+            <div class="cs-h">Network</div>
+            <div class="xr-net" id="xr-net">
+              <div class="xr-end">Web APIs<small>browser</small></div>
+              <div class="xr-track"><i class="xr-dot"></i></div>
+              <div class="xr-end">Server<small>countries API</small></div>
+            </div>
+            <p class="xr-net-t" id="xr-net-t"></p>
+          </div>
+          <div class="rt-box">
+            <div class="cs-h">Variables</div>
+            <div class="xr-rows" id="xr-vars"></div>
+          </div>
+          <div class="rt-box">
+            <div class="cs-h">Page</div>
+            <div class="xr-page"><div class="xr-countries" id="xr-cont"></div></div>
+          </div>
+        </div>
+        <div class="cs-ctl">
+          <button class="replay" id="xr-prev">Previous</button>
+          <button class="replay" id="xr-play">Play</button>
+          <button class="replay" id="xr-next">Next</button>
+          <button class="replay" id="xr-reset">Reset</button>
+          <span class="cs-count" id="xr-count"></span>
+        </div>
+      </figure>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Line</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td><code>new XMLHttpRequest()</code></td><td>Creates an empty request object and stores it in <code>request</code>.</td></tr>
+            <tr><td><code>open('GET', url)</code></td><td>Sets what to ask for and where. Nothing is sent yet.</td></tr>
+            <tr><td><code>send()</code></td><td>Sends the request. It is handed to the Web APIs, and JavaScript moves on.</td></tr>
+            <tr><td><code>'load'</code> listener</td><td>The callback that runs when the response arrives.</td></tr>
+            <tr><td><code>JSON.parse(this.responseText)</code></td><td>The response is text. This turns it into data. The API returns an array, so <code>[data]</code> takes the first country.</td></tr>
+            <tr><td><code>insertAdjacentHTML</code></td><td>Adds the card to the page, with no reload.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">The listener can be added after <code>send()</code>, because the response always arrives later, through the callback queue, once the current code has finished.</p>
+      <p class="note">Modern code uses <code>fetch</code> instead, which returns a promise rather than taking a callback.</p>
+    </section>
+    <section class="sec" id="ajax-chain">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Requests that depend on each other</h2></div>
+      <p class="sec-lede">Sometimes a request needs something that only arrives in the previous response. Here, with the free <a href="https://pokeapi.co" rel="noopener">PokeAPI</a>: get Pikachu, then its species, then its evolution chain. Each response contains the URL for the next request.</p>
+      <pre class="code"><code>const getEvolutions = function (name) {
+  // request 1: the pokémon
+  const request = new XMLHttpRequest();
+  request.open('GET', `https://pokeapi.co/api/v2/pokemon/${name}`);
+  request.send();
+
+  request.addEventListener('load', function () {
+    const pokemon = JSON.parse(this.responseText);
+    console.log(`${pokemon.name} is #${pokemon.id}`);
+
+    // request 2: its species. The URL arrived in response 1
+    const request2 = new XMLHttpRequest();
+    request2.open('GET', pokemon.species.url);
+    request2.send();
+
+    request2.addEventListener('load', function () {
+      const species = JSON.parse(this.responseText);
+      console.log(`${species.name} lives in the ${species.habitat.name}`);
+
+      // request 3: its evolution chain. The URL arrived in response 2
+      const request3 = new XMLHttpRequest();
+      request3.open('GET', species.evolution_chain.url);
+      request3.send();
+
+      request3.addEventListener('load', function () {
+        const { chain } = JSON.parse(this.responseText);
+        const stages = [];
+        let stage = chain;
+        while (stage) {
+          stages.push(stage.species.name);
+          stage = stage.evolves_to[0];
+        }
+        console.log(stages.join(' → '));
+      });
+    });
+  });
+};
+
+getEvolutions('pikachu');
+// pikachu is #25
+// pikachu lives in the forest
+// pichu → pikachu → raichu</code></pre>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Request</th><th>Its URL comes from</th><th>It gives us</th></tr></thead>
+          <tbody>
+            <tr><td>1. The pokémon</td><td>The name we pass in</td><td>Number, types and <code>species.url</code></td></tr>
+            <tr><td>2. The species</td><td><code>pokemon.species.url</code> from response 1</td><td>Habitat and <code>evolution_chain.url</code></td></tr>
+            <tr><td>3. The evolution chain</td><td><code>species.evolution_chain.url</code> from response 2</td><td>Every stage: pichu → pikachu → raichu</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Each request can only start inside the previous one's callback, because that is where its URL arrives. Three requests means three levels of nesting, and every new step goes one level deeper. This is how callback hell begins.</p>
+      <div class="defn"><p><b>Callback hell</b> is a lot of nested callbacks used to run asynchronous tasks in sequence. Each task can only start inside the previous task's callback, so the code nests deeper with every step and becomes hard to read, change and handle errors in.</p></div>
+      <p>The simplest case: three timers that must run one after another. Each <code>setTimeout</code> is started inside the previous one's callback, the only place where the previous timer is known to be done.</p>
+      <pre class="code"><code>setTimeout(() => {
+  console.log('1 second passed');
+  setTimeout(() => {
+    console.log('2 seconds passed');
+    setTimeout(() => {
+      console.log('3 seconds passed');
+    }, 1000);
+  }, 1000);
+}, 1000);</code></pre>
+    </section>
+
+    <div class="pager"></div>
+  </article>
+
+  <article class="doc" id="fetch" hidden>
+    <div class="head"><div class="crumbs"></div><h1>fetch</h1><p class="lede">The modern way to make AJAX calls: a built-in function that returns a promise.</p></div>
+    <section class="sec" id="ajax-fetch">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>A first request</h2></div>
+      <p class="sec-lede"><code>fetch(url)</code> sends the request right away and returns a <b>promise</b>. Each <code>.then</code> says what to do once the previous step has its result.</p>
+      <pre class="code"><code>fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (pokemon) {
+    const html = `
+    &lt;article class="pokemon"&gt;
+      &lt;img src="${pokemon.sprites.front_default}" /&gt;
+      &lt;h3&gt;${pokemon.name}&lt;/h3&gt;
+      &lt;p&gt;#${pokemon.id} · ${pokemon.types[0].type.name}&lt;/p&gt;
+    &lt;/article&gt;`;
+
+    container.insertAdjacentHTML('beforeend', html);
+  });</code></pre>
+    </section>
+    <div class="pager"></div>
+  </article>
+  <article class="doc" id="promises" hidden>
+    <div class="head"><div class="crumbs"></div><h1>Promises</h1><p class="lede">An object that stands for a value that will exist in the future.</p></div>
+    <div class="prose"><div class="defn"><p>A <b>promise</b> is a placeholder object for the future result of an asynchronous operation. It starts <b>pending</b> and settles once: <b>fulfilled</b> with a value, or <b>rejected</b> with an error.</p></div></div>
+
+    <section class="sec" id="pr-states">
+      <div class="sec-head"><span class="sec-no op">1</span><h2>The three states</h2></div>
+      <p class="sec-lede">A promise is pending while the work is running. When it finishes, the promise is settled, and it never changes again.</p>
+      <figure>
+        <figcaption>Whoever creates the promise settles it with <code>resolve</code> or <code>reject</code>. Whoever uses it reacts with <code>.then</code> or <code>.catch</code>.</figcaption>
+        <svg class="fn-svg anat-svg" viewBox="0 0 640 260" role="img" aria-labelledby="prs-t prs-d">
+          <title id="prs-t">Promise states</title>
+          <desc id="prs-d">A pending promise becomes fulfilled when resolve(value) is called, and .then runs. It becomes rejected when reject(error) is called, and .catch runs.</desc>
+          <g class="val">
+            <rect class="tk" x="30" y="95" width="170" height="64" rx="10"/>
+            <text class="mono c" x="115" y="118" text-anchor="middle" dominant-baseline="central">pending</text>
+            <text class="tag" x="115" y="143" text-anchor="middle">waiting</text>
+          </g>
+          <g class="yes">
+            <path class="ln" d="M204 115 C 300 115, 330 55, 418 55"/><path class="hd" d="M418 50 l8 5 -8 5 z"/>
+            <text class="lb" x="300" y="62" text-anchor="middle">resolve(value)</text>
+            <rect class="tk" x="430" y="23" width="180" height="64" rx="10"/>
+            <text class="mono c" x="520" y="46" text-anchor="middle" dominant-baseline="central">fulfilled</text>
+            <text class="tag" x="520" y="71" text-anchor="middle">has a value</text>
+            <text class="lb" x="520" y="112" text-anchor="middle">.then runs</text>
+          </g>
+          <g class="no">
+            <path class="ln" d="M204 139 C 300 139, 330 199, 418 199"/><path class="hd" d="M418 194 l8 5 -8 5 z"/>
+            <text class="lb" x="300" y="212" text-anchor="middle">reject(error)</text>
+            <rect class="tk" x="430" y="167" width="180" height="64" rx="10"/>
+            <text class="mono c" x="520" y="190" text-anchor="middle" dominant-baseline="central">rejected</text>
+            <text class="tag" x="520" y="215" text-anchor="middle">has an error</text>
+            <text class="lb" x="520" y="254" text-anchor="middle">.catch runs</text>
+          </g>
+        </svg>
+      </figure>
+    </section>
+
+    <section class="sec" id="pr-consume">
+      <div class="sec-head"><span class="sec-no op">2</span><h2>Using a promise: <code class="h-op">then</code>, <code class="h-op">catch</code>, <code class="h-op">finally</code></h2></div>
+      <p class="sec-lede">The promise does not run your code itself. You attach callbacks, and the promise calls them with the value or the error once it settles.</p>
+      <pre class="code"><code>fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
+  .then((response) => response.json())
+  .then((pokemon) => console.log(pokemon.name))   // fulfilled: pikachu
+  .catch((err) => console.error(err.message))     // rejected: for example, no internet
+  .finally(() => console.log('Request finished')); // either way</code></pre>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Method</th><th>Runs when</th><th>Receives</th></tr></thead>
+          <tbody>
+            <tr><td><code>.then(cb)</code></td><td>The promise is fulfilled</td><td>The value</td></tr>
+            <tr><td><code>.catch(cb)</code></td><td>The promise is rejected. One <code>.catch</code> at the end of a chain handles errors from every step.</td><td>The error</td></tr>
+            <tr><td><code>.finally(cb)</code></td><td>Either way, for cleanup such as hiding a loading spinner</td><td>Nothing</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note"><code>.then</code> can also take two callbacks, one for fulfilled and one for rejected: <code>.then(onValue, onError)</code>. <code>.catch(cb)</code> is a shortcut for <code>.then(undefined, cb)</code>.</p>
+    </section>
+
+    <section class="sec" id="pr-build">
+      <div class="sec-head"><span class="sec-no op">3</span><h2>Building a promise: <code class="h-op">resolve</code> and <code class="h-op">reject</code></h2></div>
+      <p class="sec-lede"><code>new Promise</code> takes one function, the <b>executor</b>. It receives two functions, <code>resolve</code> and <code>reject</code>, and calls one of them when the work is done.</p>
+      <pre class="code"><code>const throwPokeball = new Promise(function (resolve, reject) {
+  console.log('The Poké Ball is shaking…');   // pending
+
+  setTimeout(function () {
+    if (Math.random() &gt;= 0.5) {
+      resolve('Gotcha! Pikachu was caught');   // fulfilled
+    } else {
+      reject(new Error('Pikachu broke free'));  // rejected
+    }
+  }, 2000);
+});
+
+throwPokeball
+  .then((message) => console.log(message))
+  .catch((err) => console.error(err.message))
+  .finally(() => console.log('The throw is over'));</code></pre>
+      <p class="note"><code>fetch</code> builds its promise the same way internally: it calls <code>resolve(response)</code> when the response arrives, and <code>reject(error)</code> if the request cannot be made.</p>
     </section>
     <div class="pager"></div>
   </article>
